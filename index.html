@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title> Votre parcours vers l'Allemagne - École d'allemand</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form[name="inscription"]');
+            const thankYou = document.getElementById('thank-you');
+            if (!form) return;
+
+            // Éléments pour la nouvelle logique de validation
+            const currentLevelRadios = form.querySelectorAll('input[name="current_level"]');
+            // 'certificatCheckbox' est maintenant une checkbox avec un name différent
+            const certificatCheckbox = form.querySelector('input[name="has_certificat"]');
+
+
+            // Attacher l'écouteur d'événement à chaque radio button de niveau
+            currentLevelRadios.forEach(radio => {
+                radio.addEventListener('change', updateCertificatCheckboxState);
+            });
+
+            // Initialiser l'état au chargement de la page
+            updateCertificatCheckboxState();
+
+
+            form.addEventListener('submit', function(event) {
+                let errors = [];
+
+                const name = form.name.value.trim();
+                const email = form.email.value.trim();
+                const dataprivacy = form.dataprivacy.checked;
+
+                // Validation du nom
+                if (name === '') {
+                    errors.push('Veuillez entrer votre nom.');
+                }
+
+                // Validation de l'email
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email === '') {
+                    errors.push('Veuillez entrer votre adresse e-mail.');
+                } else if (!emailPattern.test(email)) {
+                    errors.push('Veuillez entrer une adresse e-mail valide.');
+                }
+
+                // Validation de la politique de confidentialité
+                if (!dataprivacy) {
+                    errors.push('Veuillez accepter la politique de confidentialité.');
+                }
+
+                // Validation pour s'assurer qu'un niveau est sélectionné (Aucun, A1, A2, B1, B2)
+                let currentLevelSelected = false;
+                currentLevelRadios.forEach(radio => {
+                    if (radio.checked) {
+                        currentLevelSelected = true;
+                    }
+                });
+
+                if (!currentLevelSelected) {
+                    errors.push('Veuillez choisir votre niveau actuel.');
+                }
+
+                // Pas besoin de validation spécifique pour la checkbox "certificat" ici,
+                // car sa désactivation/réactivation gère la logique côté utilisateur.
+                // Si JavaScript est désactivé, le champ serait toujours soumis mais son intention est claire.
+
+                if (errors.length > 0) {
+                    event.preventDefault();
+                    alert(errors.join('\n'));
+                } else {
+                    form.style.display = "none";
+                    thankYou.style.display = "block";
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <form name="inscription" method="POST" data-netlify="true" netlify-honeypot="website" autocomplete="on" netlify-notify="contact@linguahorizon.com">
+        <input type="hidden" name="form-name" value="inscription" />
+        <h1 style="color:#003f7d; text-align:center; margin-bottom:1em;">Votre parcours vers l'Allemagne</h1>
+
+        <input type="hidden" name="website" tabindex="-1" autocomplete="off" />
+
+        <fieldset>
+            <legend>Coordonnées</legend>
+            <label for="name">Nom complet* </label>
+            <input id="name" name="name" type="text" required />
+
+            <label for="email">Adresse e-mail* </label>
+            <input id="email" name="email" type="email" required />
+
+            <label for="phone">Numéro de téléphone (optionnel)</label>
+            <input id="phone" name="phone" type="tel" pattern="[0-9+\s-]*" />
+        </fieldset>
+
+        <fieldset>
+            <legend>Niveau actuel ou certificat*</legend>
+            <div class="radio-group" role="radiogroup" aria-labelledby="current-level-label" aria-required="true">
+                <label><input type="radio" name="current_level" value="aucun" required /> Aucun</label>
+                <label><input type="radio" name="current_level" value="a1" /> A1 </label>
+                <label><input type="radio" name="current_level" value="a2" /> A2 </label>
+                <label><input type="radio" name="current_level" value="b1" /> B1 </label>
+                <label><input type="radio" name="current_level" value="b2" /> B2 </label>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Test de classement requis</legend>
+            <label>
+                <input type="checkbox" name="placement_test" /> Je souhaite effectuer un test de classement
+            </label>
+            <p class="info-text">
+                Si vous n'êtes pas sûr de votre niveau, nous offrons la possibilité d'effectuer un test de niveau. Ceci permet d'évaluer de manière précise votre niveau actuel.
+            </p>
+
+            <!-- <label for="placement_notes">Notes pour le test de classement (optionnel)</label> -->
+            <!-- <input id="placement_notes" name="placement_notes" type="text" placeholder="Vos commentaires ou préférences pour le test..." /> -->
+        </fieldset>
+
+        <fieldset>
+            <legend>Préférences de cours : Niveau souhaité</legend>
+            <label for="desired_level">Niveau souhaité*</label>
+            <select id="desired_level" name="desired_level" required>
+                <option value="">Veuillez choisir</option>
+                <option value="a1">A1 (40 heures) </option>
+                <option value="a2">A2 (40 heures)</option>
+                <option value="b1">B1 (60 heures)</option>
+                <option value="b2">B2 (60 heures)</option>
+                <option value="c1">C1 (60 heures)</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Cours spéciaux</legend>
+            <label>
+                <input type="checkbox" name="communication_course" /> Cours de communication – Ce cours vise à améliorer les compétences orales et la fluidité en allemand dans des situations quotidiennes et professionnelles.
+            </label>
+
+            <label>
+                <input type="checkbox" name="exam_prep_course" /> Cours de préparation aux examens – Ce cours a pour objectif de préparer les étudiants aux examens officiels, avec un volume de 10 heures par niveau.
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Intensité et Horaire du cours</legend>
+            <label>Intensité du cours*</label>
+            <label><input type="radio" name="course_intensity" value="intensive" required /> Cours intensif (15 heures par semaine)</label>
+            <label><input type="radio" name="course_intensity" value="standard" /> Cours standard (9 heures par semaine)</label>
+
+            <label>Horaire souhaité*</label>
+            <label><input type="radio" name="schedule" value="morning" required /> Cours du matin (09h – 12h)</label>
+            <label><input type="radio" name="schedule" value="afternoon" /> Cours de l’après-midi (14h – 17h)</label>
+            <label><input type="radio" name="schedule" value="evening" /> Cours du soir (18h – 21h)</label>
+            <label><input type="radio" name="schedule" value="weekend" /> Cours du week-end (heures de début : 10h ou 16h)</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Informations supplémentaires</legend>
+            <label for="comments">Commentaires ou questions</label>
+            <textarea id="comments" name="comments" rows="4"></textarea>
+        </fieldset>
+
+        <label>
+            <input type="checkbox" name="dataprivacy" required /> J’ai lu et j’accepte la <a href="/politique-de-confidentialite" target="_blank">politique de confidentialité</a>.*
+        </label>
+
+        <button type="submit">Envoyer</button>
+
+        <p style="margin-top: 1em; font-weight: 600; color: #003f7d;">Des questions ? Contactez-nous au : <strong>28 111 176</strong></p>
+    </form>
+
+    <div id="thank-you" class="thank-you-message" style="display:none;">
+        <h2>Merci pour votre inscription !</h2>
+        <p>Nous avons bien reçu votre demande et vous contacterons bientôt.</p>
+    </div>
+</body>
+
+</html>
