@@ -1,0 +1,163 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e6f0fa;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 20px;
+}
+
+form {
+    max-width: 650px;
+    margin: 2em auto;
+    background: #ffffff;
+    padding: 2.5em 3em;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 91, 170, 0.15);
+    border: 2px solid #005baa;
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 1.5em;
+    padding: 1.5em;
+    background: #f0f7ff;
+    border-left: 6px solid #005baa;
+    border-radius: 6px;
+}
+
+legend {
+    font-weight: 700;
+    color: #003f7d;
+    font-size: 1.2em;
+    padding: 0 0.5em;
+}
+
+label {
+    display: block;
+    margin: 1em 0 0.3em;
+    color: #004a99;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.8em;
+    border: 2px solid #99c2ff;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #005baa;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 91, 170, 0.2);
+}
+
+.radio-group label {
+    display: inline-block;
+    margin-right: 1.5em;
+    font-weight: 500;
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 1em;
+    background: linear-gradient(135deg, #0073e6, #004a99);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1.5em;
+}
+
+.info-text {
+    font-size: 0.9em;
+    color: #555;
+    margin: 0.5em 0 0 1.8em;
+    font-style: italic;
+}
+
+
+/* Styles pour le message de remerciement */
+
+.thank-you-message {
+    max-width: 650px;
+    margin: 2em auto;
+    background: #f0fff4;
+    border: 2px solid #4bb543;
+    border-radius: 12px;
+    padding: 2.5em;
+    text-align: center;
+}
+
+.thank-you-icon {
+    margin-bottom: 1.5em;
+}
+
+.thank-you-message h2 {
+    color: #4bb543;
+    margin-bottom: 1em;
+}
+
+.thank-you-text {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.thank-you-list {
+    text-align: left;
+    max-width: 400px;
+    margin: 1.5em auto;
+    padding-left: 1.5em;
+}
+
+.thank-you-list li {
+    margin-bottom: 0.8em;
+    position: relative;
+    list-style-type: none;
+}
+
+.thank-you-list li:before {
+    content: "✓";
+    color: #4bb543;
+    font-weight: bold;
+    position: absolute;
+    left: -1.5em;
+}
+
+.thank-you-contact {
+    margin: 1.5em 0;
+    font-weight: 600;
+}
+
+.return-button {
+    padding: 0.8em 2em;
+    background: #005baa;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1em;
+}
+
+@media (max-width: 700px) {
+    form,
+    .thank-you-message {
+        padding: 1.5em;
+    }
+    .radio-group label {
+        display: block;
+        margin: 0.5em 0;
+    }
+}
