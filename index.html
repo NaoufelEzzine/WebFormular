@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulaire d'inscription - École d'allemand</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        
+        .flag-icon {
+            width: 20px;
+            margin-right: 5px;
+        }
+        
+        .form-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #confirmation-message {
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container mt-4 mb-4">
+        <h2 class="mb-4">
+            <img src="https://flagcdn.com/w20/tn.png" class="flag-icon" alt="Tunisie"> Formulaire d'inscription aux cours d'allemand
+        </h2>
+
+        <!-- Message de confirmation caché au départ -->
+        <div id="confirmation-message" class="alert alert-success d-none">
+            <h4><i class="bi bi-check-circle-fill"></i> Merci pour votre inscription !</h4>
+            <p>Nous avons bien reçu votre formulaire et vous contacterons dans les plus brefs délais.</p>
+            <button class="btn btn-sm btn-outline-success" onclick="resetForm()">Nouvelle inscription</button>
+        </div>
+
+        <!-- FORMULAIRE PRINCIPAL -->
+        <form id="registrationForm" name="contact" method="POST" netlify netlify-honeypot="bot-field" class="needs-validation" novalidate>
+
+            <!-- Champ anti-spam caché -->
+            <div class="hidden">
+                <label>Ne remplissez pas ce champ : <input name="bot-field"></label>
+            </div>
+
+            <!-- Informations personnelles -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Informations personnelles</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label required-field">Prénom</label>
+                            <input type="text" class="form-control" id="name" name="prenom" required />
+                            <div class="invalid-feedback">Veuillez entrer votre prénom.</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="surname" class="form-label required-field">Nom de famille</label>
+                            <input type="text" class="form-control" id="surname" name="nom" required />
+                            <div class="invalid-feedback">Veuillez entrer votre nom de famille.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label required-field">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" required />
+                        <div class="invalid-feedback">Veuillez entrer une adresse e-mail valide.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Numéro de téléphone (Tunisie)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">+216</span>
+                            <input type="tel" class="form-control" id="phone" name="telephone" pattern="[0-9]{8}" placeholder="12345678" />
+                        </div>
+                        <div class="invalid-feedback">Veuillez entrer un numéro tunisien valide (8 chiffres).</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="city" class="form-label">Ville en Tunisie</label>
+                        <select class="form-select" id="city" name="ville">
+                            <option value="">Sélectionnez votre ville</option>
+                            <option value="Tunis">Tunis</option>
+                            <option value="Sfax">Sfax</option>
+                            <option value="Sousse">Sousse</option>
+                            <option value="Gabès">Gabès</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Niveau de langue -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Niveau de langue</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-section">
+                        <label class="form-label required-field">Niveau actuel d'allemand</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="niveau_actuel" id="noPrevious" value="Aucune connaissance" required>
+                                <label class="form-check-label" for="noPrevious">Aucune connaissance (débutant complet)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="niveau_actuel" id="A1" value="A1">
+                                <label class="form-check-label" for="A1">A1 - Niveau introductif</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="niveau_actuel" id="A2" value="A2">
+                                <label class="form-check-label" for="A2">A2 - Niveau intermédiaire de base</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="niveau_actuel" id="B1" value="B1">
+                                <label class="form-check-label" for="B1">B1 - Niveau seuil</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="niveau_actuel" id="B2" value="B2">
+                                <label class="form-check-label" for="B2">B2 - Niveau avancé indépendant</label>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Veuillez sélectionner votre niveau actuel.</div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="placementTest" name="test_placement">
+                        <label class="form-check-label" for="placementTest">Je souhaite passer un test de placement pour déterminer mon niveau</label>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="desiredLevel" class="form-label required-field">Niveau souhaité</label>
+                        <select class="form-select" id="desiredLevel" name="niveau_souhaite" required>
+                            <option value="">-- Sélectionnez un niveau --</option>
+                            <option value="A1">A1 - Niveau introductif</option>
+                            <option value="A2">A2 - Niveau intermédiaire de base</option>
+                            <option value="B1">B1 - Niveau seuil</option>
+                            <option value="B2">B2 - Niveau avancé indépendant</option>
+                        </select>
+                        <div class="invalid-feedback">Veuillez sélectionner un niveau souhaité.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Options de cours -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Options de cours</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-section">
+                        <label class="form-label required-field">Type de cours</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type_cours" id="regularCourse" value="Cours régulier" required>
+                            <label class="form-check-label" for="regularCourse">Cours régulier (par niveau)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type_cours" id="communicationOnly" value="Cours de communication uniquement">
+                            <label class="form-check-label" for="communicationOnly">Cours de communication uniquement</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type_cours" id="bothCourses" value="Cours combinés">
+                            <label class="form-check-label" for="bothCourses">Cours combinés (niveau + communication)</label>
+                        </div>
+                        <div class="invalid-feedback">Veuillez sélectionner un type de cours.</div>
+                    </div>
+
+                    <div class="form-section">
+                        <label class="form-label required-field">Intensité du cours</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="intensite_cours" id="intensive" value="Cours intensif" required>
+                                <label class="form-check-label" for="intensive">Cours intensif (20h/semaine)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="intensite_cours" id="standard" value="Cours standard">
+                                <label class="form-check-label" for="standard">Cours standard (8h/semaine)</label>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Veuillez sélectionner une intensité de cours.</div>
+                    </div>
+
+                    <div class="form-section">
+                        <label class="form-label required-field">Horaire préféré</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="horaire" id="morning" value="Matin" required>
+                                <label class="form-check-label" for="morning">Cours du matin (8h-12h)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="horaire" id="afternoon" value="Après-midi">
+                                <label class="form-check-label" for="afternoon">Cours d'après-midi (13h-17h)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="horaire" id="evening" value="Soir">
+                                <label class="form-check-label" for="evening">Cours du soir (18h-21h)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="horaire" id="weekend" value="Week-end">
+                                <label class="form-check-label" for="weekend">Cours du week-end 
+                                    <small class="text-muted">(Samedi/Dimanche - 10h ou 18h)</small>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Veuillez sélectionner un horaire.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Remarques supplémentaires</label>
+                        <textarea class="form-control" id="notes" name="remarques" rows="3" placeholder="Précisez vos disponibilités, préférences particulières..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Validation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="checkbox" id="privacyPolicy" name="confidentialite" required>
+                        <label class="form-check-label" for="privacyPolicy">J'accepte la <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">politique de confidentialité</a> *</label>
+                        <div class="invalid-feedback">Vous devez accepter notre politique de confidentialité.</div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>Information :</strong> Après soumission, vous recevrez un e-mail de confirmation avec les détails de votre inscription et les prochaines étapes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="reset" class="btn btn-secondary me-md-2">Effacer le formulaire</button>
+                <button type="submit" class="btn btn-success">Soumettre l'inscription</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal de confidentialité -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="privacyModalLabel">Politique de Confidentialité</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    [Votre texte de politique de confidentialité ici...]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">J'ai compris</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <!-- Scripts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Validation et gestion du formulaire
+        (function() {
+            'use strict';
+            const form = document.getElementById('registrationForm');
+            const confirmationMessage = document.getElementById('confirmation-message');
+
+            // Fonction pour réinitialiser le formulaire
+            window.resetForm = function() {
+                form.reset();
+                form.classList.remove('was-validated');
+                confirmationMessage.classList.add('d-none');
+                form.classList.remove('d-none');
+            };
+
+            // Validation Bootstrap
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                if (form.checkValidity()) {
+                    // Simulation d'envoi (remplacé par Netlify en production)
+                    setTimeout(() => {
+                        // Afficher le message de confirmation
+                        confirmationMessage.classList.remove('d-none');
+                        form.classList.add('d-none');
+
+                        // Faire défiler vers le message
+                        confirmationMessage.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+
+                        // En production, Netlify gérera lui-même la soumission
+                        form.submit();
+                    }, 1000);
+                } else {
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        })();
+    </script>
+</body>
+
+</html>
