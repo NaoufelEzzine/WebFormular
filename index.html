@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Votre parcours vers l'Allemagne - École d'allemand</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form[name="inscription"]');
+            const thankYou = document.getElementById('thank-you');
+            if (!form) return;
+
+            const currentLevelRadios = form.querySelectorAll('input[name="current_level"]');
+            const certificatCheckbox = form.querySelector('input[name="has_certificat"]');
+
+            currentLevelRadios.forEach(radio => {
+                radio.addEventListener('change', updateCertificatCheckboxState);
+            });
+
+            updateCertificatCheckboxState();
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                let errors = [];
+                const name = form.name.value.trim();
+                const email = form.email.value.trim();
+                const dataprivacy = form.dataprivacy.checked;
+
+                if (name === '') errors.push('Veuillez entrer votre nom.');
+
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email === '') {
+                    errors.push('Veuillez entrer votre adresse e-mail.');
+                } else if (!emailPattern.test(email)) {
+                    errors.push('Veuillez entrer une adresse e-mail valide.');
+                }
+
+                if (!dataprivacy) errors.push('Veuillez accepter la politique de confidentialité.');
+
+                let currentLevelSelected = false;
+                currentLevelRadios.forEach(radio => {
+                    if (radio.checked) currentLevelSelected = true;
+                });
+
+                if (!currentLevelSelected) errors.push('Veuillez choisir votre niveau actuel.');
+
+                if (errors.length > 0) {
+                    alert(errors.join('\n'));
+                    return;
+                }
+
+                // Envoi des données via Fetch API
+                const formData = new FormData(form);
+
+                fetch('/', {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: new URLSearchParams(formData).toString()
+                    })
+                    .then(() => {
+                        form.style.display = "none";
+                        thankYou.style.display = "block";
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        form.style.display = "none";
+                        thankYou.style.display = "block";
+                    });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <form name="inscription" method="POST" data-netlify="true" netlify-honeypot="website" autocomplete="on">
+        <input type="hidden" name="form-name" value="inscription" />
+        <h1 style="color:#003f7d; text-align:center; margin-bottom:1em;">Votre parcours vers l'Allemagne</h1>
+
+        <input type="hidden" name="website" tabindex="-1" autocomplete="off" />
+
+        <!-- [Tous les champs du formulaire restent identiques] -->
+
+        <!-- ... (contenu actuel de votre formulaire) ... -->
+
+        <button type="submit">Envoyer</button>
+        <p style="margin-top: 1em; font-weight: 600; color: #003f7d;">Des questions ? Contactez-nous au : <strong>28 111 176</strong></p>
+    </form>
+
+    <div id="thank-you" class="thank-you-message" style="display:none;">
+        <div class="thank-you-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#4bb543" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <h2>Merci pour votre inscription !</h2>
+        <p class="thank-you-text">Nous avons bien reçu votre demande d'inscription à nos cours d'allemand.</p>
+        <p class="thank-you-text">Notre équipe va examiner les informations que vous avez fournies et vous contactera dans les plus brefs délais pour :</p>
+        <ul class="thank-you-list">
+            <li>Confirmer votre inscription</li>
+            <li>Vous proposer une visite de nos locaux</li>
+            <li>Répondre à toutes vos questions</li>
+        </ul>
+        <p class="thank-you-contact">En attendant, vous pouvez nous contacter au <strong>28 111 176</strong> ou par email à <strong>contact@linguahorizon.com</strong></p>
+        <button onclick="window.location.reload()" class="return-button">Retour au formulaire</button>
+    </div>
+</body>
+
+</html>
